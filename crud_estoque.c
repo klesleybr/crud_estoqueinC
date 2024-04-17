@@ -21,7 +21,7 @@ typedef struct produto{
 	int quantidade;
 	float precoUni;
 	float precoTotal;
-} pdt;
+} pd;
 
 int main(void) {
 	setlocale(LC_ALL, "Portuguese");
