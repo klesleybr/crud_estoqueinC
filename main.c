@@ -30,18 +30,38 @@ typedef struct listaP{
 	dadosProduto produto;
 	struct listaP* proximo;
 } listaP;
+typedef listaP* listaPont;
+
+
 
 
 int main(void) {
 	setlocale(LC_ALL, "Portuguese");
 	
 	char userNome[50];
-	int status;
+	int opc, status;
 	
 	puts("========================================================================");
 	puts("      BEM-VINDO AO SISTEMA DE CONTROLE DE ESTOQUE Almeida Storage!      ");
 	puts("========================================================================");
 	autenticacao(userNome);
+	
+	do{
+		puts("============ CONTROLE DE ESTOQUE (menu) ============");
+		puts("[1] - Adicionar produto");
+		puts("[2] - Retirar produto");
+		puts("[3] - Ver estoque atual");
+		puts("[4] - Ver histórico de operações");
+		puts("[5] - Excluir produto");
+		puts("[6] - Alterar usuário");
+		puts("[0] - Sair");
+		puts("====================================================");
+		printf("|| Escolha uma opção: ");
+		scanf("%d", &opc);
+		
+		system("pause");
+		system("cls");
+	} while(opc != 0);
 	
 	return 0;
 }
