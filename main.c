@@ -1,13 +1,13 @@
-/* A proposta é fazer um controle de estoque de um armazém que abriga produtos diversos
-para revenda. Até o momento, pensamos em implementar as opções:
+/* A proposta Ã© fazer um controle de estoque de um armazÃ©m que abriga produtos diversos
+para revenda. AtÃ© o momento, pensamos em implementar as opÃ§Ãµes:
 
 		- Adicionar produto
 		- Retirar produto
-		- Modificar informação
+		- Modificar informaÃ§Ã£o
 		- Excluir produto
-		- Histórico de ações
+		- HistÃ³rico de aÃ§Ãµes
 		
-Isso será feito utilizando-se da TAD lista dinâmica encadeada.
+Isso serÃ¡ feito utilizando-se da TAD lista dinÃ¢mica encadeada.
 */
 
 #include <stdlib.h>
@@ -24,7 +24,7 @@ typedef struct pdt{
 	float precoUni;
 	float precoTotal;
 } dadosProduto;
-/* Cada nó da lista corresponderá a uma struct pdt e um ponteiro. */
+/* Cada nÃ³ da lista corresponderÃ¡ a uma struct pdt e um ponteiro. */
 
 typedef struct listaP{
 	dadosProduto produto;
@@ -32,8 +32,24 @@ typedef struct listaP{
 } listaP;
 typedef listaP* listaPont;
 
+int inserir(listaPont* P, int pos, dadosProduto produto){
+	
+	listaP* novo;
+	
+	if(*P == NULL){
+		if(pos != 1) return 0;
+	
+	novo = (listaP*)malloc(sizeof(listaP));
+	
+	if(novo = NULL) return 0;
+	
+	novo->produto = produto;
+	novo->proximo = NULL;
+	*P = novo;	
+}
 
-
+return 1;
+}
 
 int main(void) {
 	setlocale(LC_ALL, "Portuguese");
@@ -51,13 +67,24 @@ int main(void) {
 		puts("[1] - Adicionar produto");
 		puts("[2] - Retirar produto");
 		puts("[3] - Ver estoque atual");
-		puts("[4] - Ver histórico de operações");
+		puts("[4] - Ver histÃ³rico de operaÃ§Ãµes");
 		puts("[5] - Excluir produto");
-		puts("[6] - Alterar usuário");
+		puts("[6] - Alterar usuÃ¡rio");
 		puts("[0] - Sair");
 		puts("====================================================");
-		printf("|| Escolha uma opção: ");
+		printf("|| Escolha uma opÃ§Ã£o: ");
 		scanf("%d", &opc);
+
+		switch(opc){
+		
+			case 0:
+				puts("VOCÃŠ SAIU DO SISTEMA DE CONTROLE DE ESTOQUE.");
+			break;
+			case 1:
+				printf("Digite o que vocÃª deseja adicionar: ");
+				scanf("%d", &inserir);
+			break;
+		}
 		
 		system("pause");
 		system("cls");
