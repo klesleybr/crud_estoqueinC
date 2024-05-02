@@ -32,7 +32,7 @@ typedef struct listaP{
 } listaP;
 typedef listaP* listaPont;
 
-int inserir(listaPont* P, int pos, dadosProduto produto){
+int adicionar(listaPont* P, int pos, dadosProduto produto){
 	
 	listaP* novo;
 	
@@ -82,7 +82,7 @@ int main(void) {
 			break;
 			case 1:
 				printf("Digite o que você deseja adicionar: ");
-				scanf("%d", &inserir);
+				scanf("%d", &adicionar);
 			break;
 		}
 		
