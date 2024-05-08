@@ -1,13 +1,13 @@
-/* A proposta È fazer um controle de estoque de um armazÈm que abriga produtos diversos
-para revenda. AtÈ o momento, pensamos em implementar as opÁıes:
+/* A proposta √© fazer um controle de estoque de um armaz√©m que abriga produtos diversos
+para revenda. At√© o momento, pensamos em implementar as op√ß√µes:
 
 		- Adicionar produto
 		- Retirar produto
-		- Modificar informaÁ„o
+		- Modificar informa√ß√£o
 		- Excluir produto
-		- HistÛrico de aÁıes
+		- Hist√≥rico de a√ß√µes
 		
-Isso ser· feito utilizando-se da TAD lista din‚mica encadeada.
+Isso ser√° feito utilizando-se da TAD lista din√¢mica encadeada.
 */
 
 #include <stdlib.h>
@@ -22,9 +22,8 @@ typedef struct pdt{
 	float pesoUni;
 	int quantidade;
 	float precoUni;
-	float precoTotal;
 } dadosProduto;
-/* Cada nÛ da lista corresponder· a uma struct pdt e um ponteiro. */
+/* Cada n√≥ da lista corresponder√° a uma struct pdt e um ponteiro. */
 
 typedef struct listaP{
 	dadosProduto produto;
@@ -51,12 +50,12 @@ int main(void) {
 		puts("[1] - Adicionar produto");
 		puts("[2] - Retirar produto");
 		puts("[3] - Ver estoque atual");
-		puts("[4] - Ver histÛrico de operaÁıes");
+		puts("[4] - Ver hist√≥rico de opera√ß√µes");
 		puts("[5] - Excluir produto");
-		puts("[6] - Alterar usu·rio");
+		puts("[6] - Alterar usu√°rio");
 		puts("[0] - Sair");
 		puts("====================================================");
-		printf("|| Escolha uma opÁ„o: ");
+		printf("|| Escolha uma op√ß√£o: ");
 		scanf("%d", &opc);
 		
 		system("pause");
