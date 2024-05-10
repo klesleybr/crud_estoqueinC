@@ -35,7 +35,8 @@ typedef listaP* listaPont;
 
 int adicionar(listaPont* P, char id[], char nome[], float pesoUni, int quantidade, float precoUni) {
     
-	listaPont novo, atual;
+	listaPont novo, auxiliar;
+	novo = *P;
 
     novo = (listaPont)malloc(sizeof(listaP));
     
@@ -48,16 +49,13 @@ int adicionar(listaPont* P, char id[], char nome[], float pesoUni, int quantidad
     novo->produto.precoUni = precoUni;
     novo->proximo = NULL;
 
-    if (*P == NULL) {
-        *P = novo;
-    } else {
-        atual = *P;
-        while (atual->proximo != NULL) {
-            atual = atual->proximo;
-        }
-        atual->proximo = novo;
+        while (novo != NULL){
+            auxiliar = novo;
+        	novo = novo->proximo;
     }
-    return 1;
+    auxiliar->proximo = novo;
+
+	return 1;
 }
 
 int main(void) {
@@ -65,13 +63,18 @@ int main(void) {
 
     listaPont estoque = NULL;
     int opc;
+    char id[20];
+    char nome[70];
+    float pesoUni;
+    int quantidade;
+    float precoUni;
 
     puts("========================================================================");
     puts("      BEM-VINDO AO SISTEMA DE CONTROLE DE ESTOQUE Almeida Storage!      ");
     puts("========================================================================");
 
     do {
-        puts("============ CONTROLE DE ESTOQUE (menu) ============");
+        puts("============ CONTROLE DE ESTOQUE (MENU) ============");
         puts("[1] - Adicionar produto");
         puts("[2] - Retirar produto");
         puts("[3] - Ver estoque atual");
@@ -80,54 +83,50 @@ int main(void) {
         puts("[6] - Alterar usuário");
         puts("[0] - Sair");
         puts("====================================================");
-        printf("|| Escolha uma opção: ");
+        printf("|| Escolha uma opção (0-6): ");
         scanf("%d", &opc);
 
-        switch (opc) {
+        switch (opc){
             case 0:
                 puts("VOCÊ SAIU DO SISTEMA DE CONTROLE DE ESTOQUE.");
                 break;
-            case 1: {
-                char id[20];
-                char nome[70];
-                float pesoUni;
-                int quantidade;
-                float precoUni;
-
-                printf("Insira o ID do produto: ");
+            case 1: 
+				printf("Insira o ID do produto: ");
                 scanf("%s", id);
                 getchar(); /*A função getchar em C é utilizada para realizar a entrada de um único caractere e não precisa usar %c ou &, como fazemos na scanf()*/
 
                 printf("Insira o nome do produto: ");
                 fgets(nome, sizeof(nome), stdin);
 
-                printf("Insira o peso unitário do produto: ");
+                printf("Insira o peso unitário do produto (kg): ");
                 scanf("%f", &pesoUni);
 
                 printf("Insira a quantidade que você deseja: ");
                 scanf("%d", &quantidade);
 
-                printf("Insira o preço unitário do produto: ");
+                printf("Insira o preço unitário do produto: R$ ");
                 scanf("%f", &precoUni);
+                
+                puts("=========================================");
 
                 if (adicionar(&estoque, id, nome, pesoUni, quantidade, precoUni)) {
-                    printf("Produto \"%s\" adicionado com sucesso!", nome);
+                    printf("Produto adicionado com sucesso: %s", nome);
+                    printf("ID do produto: %s\n", id);
                 } else {
-                    printf("Erro ao adicionar o produto \"%s\".\n", nome);
+                    printf("Erro ao adicionar o produto: %s\n", nome);
                 }
                 break;
-            }
-        }
+	}
 
         system("pause");
         system("cls");
-    } while (opc != 0);
+	} while (opc != 0);
     
-	listaPont atual = estoque;
-    while (atual != NULL) {
-        listaPont proximo = atual->proximo;
-        free(atual);
-        atual = proximo;
+	listaPont novo = estoque;
+    while (novo != NULL) {
+        listaPont proximo = novo->proximo;
+        free(novo);
+        novo = proximo;
     }
 
     return 0;
