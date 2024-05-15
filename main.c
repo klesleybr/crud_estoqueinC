@@ -79,6 +79,10 @@ int main(void) {
 				}
                 
                 break;
+            
+            case 3:
+            	exibir_estoque(estoque);
+            	break;
                 
 			default:
 				puts(">> Erro - Opção inválida!");

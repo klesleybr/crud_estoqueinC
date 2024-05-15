@@ -86,3 +86,26 @@ int adicionar(listaPont* P, char id[], char nome[], float pesoUni, int quantidad
     auxiliar->proximo = novo;
     return 1;
 }
+
+/* Função de visualizar estoque */
+void exibir_estoque(listaPont P){
+	if(P == NULL) puts(">> ERRO - O estoque está vazio.");
+	else{
+		int i = 1;
+		while(P != NULL){
+			puts("----------------------------------------------------");
+			printf("----------------- Dados do Produto %2d -------------\n", i);
+			printf("|| ID: %s\n", P->produto.id);
+			printf("|| NOME: %s\n", P->produto.nome);
+			printf("|| QUANTIDADE: %d\n", P->produto.quantidade);
+			printf("|| PESO UNITÁRIO (kg): %.4f\n", P->produto.pesoUni);
+			printf("|| PREÇO UNITÁRIO: R$%.2f\n", P->produto.precoUni);
+			printf("~ O produto possui um peso total de %.4f kg, o equivalente a R$ %.3f.\n", (P->produto.pesoUni)*(P->produto.quantidade), (P->produto.precoUni)*((P->produto.quantidade)));
+			
+			i++;
+			P = P->proximo;
+		}	
+	}
+	
+	
+}
