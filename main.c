@@ -1,44 +1,33 @@
-/* A proposta √© fazer um controle de estoque de um armaz√©m que abriga produtos diversos
-para revenda. At√© o momento, pensamos em implementar as op√ß√µes:
+/* A proposta È fazer um controle de estoque de um armazÈm que abriga produtos diversos
+para revenda. AtÈ o momento, pensamos em implementar as opÁıes:
 
 		- Adicionar produto
 		- Retirar produto
-		- Modificar informa√ß√£o
+		- Modificar informaÁ„o
 		- Excluir produto
-		- Hist√≥rico de a√ß√µes
+		- HistÛrico de aÁıes
 		
-Isso ser√° feito utilizando-se da TAD lista din√¢mica encadeada.
+Isso ser· feito utilizando-se da TAD lista din‚mica encadeada.
 */
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <locale.h>
 #include <malloc.h>
-#include "./methods/login.c"
-
-typedef struct pdt{
-	char id[20];
-	char nome[70];
-	float pesoUni;
-	int quantidade;
-	float precoUni;
-} dadosProduto;
-/* Cada n√≥ da lista corresponder√° a uma struct pdt e um ponteiro. */
-
-typedef struct listaP{
-	dadosProduto produto;
-	struct listaP* proximo;
-} listaP;
-typedef listaP* listaPont;
-
-
-
+#include "./methods/functions.c"
 
 int main(void) {
 	setlocale(LC_ALL, "Portuguese");
 	
 	char userNome[50];
 	int opc, status;
+	
+	listaPont estoque = NULL;
+    char id[20];
+    char nome[70];
+    float pesoUni;
+    int quantidade;
+    float precoUni;
 	
 	puts("========================================================================");
 	puts("      BEM-VINDO AO SISTEMA DE CONTROLE DE ESTOQUE Almeida Storage!      ");
@@ -50,13 +39,52 @@ int main(void) {
 		puts("[1] - Adicionar produto");
 		puts("[2] - Retirar produto");
 		puts("[3] - Ver estoque atual");
-		puts("[4] - Ver hist√≥rico de opera√ß√µes");
+		puts("[4] - Ver histÛrico de operaÁıes");
 		puts("[5] - Excluir produto");
-		puts("[6] - Alterar usu√°rio");
+		puts("[6] - Alterar usu·rio");
 		puts("[0] - Sair");
 		puts("====================================================");
-		printf("|| Escolha uma op√ß√£o: ");
+		printf("|| Escolha uma opÁ„o: ");
 		scanf("%d", &opc);
+		
+		switch(opc){
+			case 0:
+				puts("<    PROGRAMA ENCERRADO   >");
+				break;
+				
+			case 1:
+				printf("Insira o ID do produto: "); // Sem espaÁos...
+                scanf("%s", id);
+                getchar(); 
+
+                printf("Insira o nome do produto: ");
+                fgets(nome, sizeof(nome), stdin);
+
+                printf("Insira o peso unit·rio do produto (kg): ");
+                scanf("%f", &pesoUni);
+
+                printf("Insira a quantidade a ser adicionada: ");
+                scanf("%d", &quantidade);
+
+                printf("Insira o preÁo unit·rio do produto: R$ ");
+                scanf("%f", &precoUni);
+                
+                if(adicionar(&estoque, id, nome, pesoUni, quantidade, precoUni)){
+                	puts("----------------------------------------------------");
+                	printf("Produto adicionado com sucesso: %s", nome);
+                    printf("ID do produto: %s\n", id);
+				}
+				else{
+					printf("Erro ao adicionar o produto: %s\n", nome);
+				}
+                
+                break;
+                
+			default:
+				puts(">> Erro - OpÁ„o inv·lida!");
+				break;
+		}
+		puts("====================================================");
 		
 		system("pause");
 		system("cls");
