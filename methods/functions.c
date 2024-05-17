@@ -87,6 +87,33 @@ int adicionar(listaPont* P, char id[], char nome[], float pesoUni, int quantidad
     return 1;
 }
 
+// Função retirar produtos
+int retirar(listaPont* P, char id[], int quantidade, char nome[]) {
+	if(*P == NULL) return -2;
+	
+	listaPont atual = *P;
+	listaPont anterior = NULL;
+	
+	// Percorre a lista procurando o produto com o ID 
+	while (atual != NULL && strcmp(atual->produto.id, id) != 0) {
+	    anterior = atual;
+	    atual = atual->proximo;
+	}
+	
+	// Se encontrou o produto, remove a quantidade
+    if (atual != NULL) {
+        if (atual->produto.quantidade >= quantidade) { // Verifica se a quantidade é suficiente
+	        atual->produto.quantidade -= quantidade;
+	        strcpy(nome, atual->produto.nome);
+	        return 1; 
+	    } else {
+	        return -1; 
+	    }
+	} else {
+	        return 0; 
+	    }
+}
+
 /* Função de visualizar estoque */
 void exibir_estoque(listaPont P){
 	if(P == NULL) puts(">> ERRO - O estoque está vazio.");
@@ -106,6 +133,6 @@ void exibir_estoque(listaPont P){
 			P = P->proximo;
 		}	
 	}
-	
-	
 }
+
+

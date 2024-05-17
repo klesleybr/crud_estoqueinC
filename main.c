@@ -77,8 +77,29 @@ int main(void) {
 				else{
 					printf("Erro ao adicionar o produto: %s\n", nome);
 				}
-                
+
                 break;
+            
+            case 2:
+            	printf("Insira o ID do produto a ser retirado: ");
+	    		scanf("%s", id);
+	    		getchar();
+	
+	    		printf("Insira a quantidade a ser retirada: ");
+	   			scanf("%d", &quantidade);
+				
+				status = retirar(&estoque, id, quantidade, nome);
+	    		if (status == 1) { // Produto retirado com sucesso
+	        		printf(">> Foram retirados %d pacotes do produto %s com sucesso.\n", quantidade, nome);
+	   			} else if(status == 0) { // Erro ao retirar o produto (não encontrado)
+	        		puts(">> ERRO - Produto não encontrado.");
+	   			} else if(status == -1){ // Erro ao retirar o produto (quantidade excedente)
+	   				puts(">> ERRO - A quantidade desejada excede o estoque.");
+				}else{
+					puts(">> ERRO - O estoque está vazio.");
+				}
+				
+            	break;
             
             case 3:
             	exibir_estoque(estoque);
