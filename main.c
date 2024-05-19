@@ -1,13 +1,13 @@
-/* A proposta é fazer um controle de estoque de um armazém que abriga produtos diversos
-para revenda. Até o momento, pensamos em implementar as opções:
+/* A proposta ï¿½ fazer um controle de estoque de um armazï¿½m que abriga produtos diversos
+para revenda. Atï¿½ o momento, pensamos em implementar as opï¿½ï¿½es:
 
 		- Adicionar produto
 		- Retirar produto
-		- Modificar informação
+		- Modificar informaï¿½ï¿½o
 		- Excluir produto
-		- Histórico de ações
+		- Histï¿½rico de aï¿½ï¿½es
 		
-Isso será feito utilizando-se da TAD lista dinâmica encadeada.
+Isso serï¿½ feito utilizando-se da TAD lista dinï¿½mica encadeada.
 */
 
 #include <stdlib.h>
@@ -39,12 +39,12 @@ int main(void) {
 		puts("[1] - Adicionar produto");
 		puts("[2] - Retirar produto");
 		puts("[3] - Ver estoque atual");
-		puts("[4] - Ver histórico de operações");
+		puts("[4] - Ver histï¿½rico de operaï¿½ï¿½es");
 		puts("[5] - Excluir produto");
-		puts("[6] - Alterar usuário");
+		puts("[6] - Alterar usuï¿½rio");
 		puts("[0] - Sair");
 		puts("====================================================");
-		printf("|| Escolha uma opção: ");
+		printf("|| Escolha uma opï¿½ï¿½o: ");
 		scanf("%d", &opc);
 		
 		switch(opc){
@@ -53,20 +53,20 @@ int main(void) {
 				break;
 				
 			case 1:
-				printf("Insira o ID do produto: "); // Sem espaços...
+				printf("Insira o ID do produto: "); // Sem espaï¿½os...
                 scanf("%s", id);
                 getchar(); 
 
                 printf("Insira o nome do produto: ");
                 fgets(nome, sizeof(nome), stdin);
 
-                printf("Insira o peso unitário do produto (kg): ");
+                printf("Insira o peso unitï¿½rio do produto (kg): ");
                 scanf("%f", &pesoUni);
 
                 printf("Insira a quantidade a ser adicionada: ");
                 scanf("%d", &quantidade);
 
-                printf("Insira o preço unitário do produto: R$ ");
+                printf("Insira o preï¿½o unitï¿½rio do produto: R$ ");
                 scanf("%f", &precoUni);
                 
                 if(adicionar(&estoque, id, nome, pesoUni, quantidade, precoUni)){
@@ -91,12 +91,12 @@ int main(void) {
 				status = retirar(&estoque, id, quantidade, nome);
 	    		if (status == 1) { // Produto retirado com sucesso
 	        		printf(">> Foram retirados %d pacotes do produto %s com sucesso.\n", quantidade, nome);
-	   			} else if(status == 0) { // Erro ao retirar o produto (não encontrado)
-	        		puts(">> ERRO - Produto não encontrado.");
+	   			} else if(status == 0) { // Erro ao retirar o produto (nï¿½o encontrado)
+	        		puts(">> ERRO - Produto nï¿½o encontrado.");
 	   			} else if(status == -1){ // Erro ao retirar o produto (quantidade excedente)
 	   				puts(">> ERRO - A quantidade desejada excede o estoque.");
 				}else{
-					puts(">> ERRO - O estoque está vazio.");
+					puts(">> ERRO - O estoque estï¿½ vazio.");
 				}
 				
             	break;
@@ -104,10 +104,18 @@ int main(void) {
             case 3:
             	exibir_estoque(estoque);
             	break;
+
+			case 5:
+                printf("Digite o ID do produto a ser removido: ");
+                scanf("%s", id);
+                getchar();
+                deletar(&estoque, id);
+                printf("Produto com ID %s removido.\n", id);
+                break;
                 
-			default:
-				puts(">> Erro - Opção inválida!");
-				break;
+            default:
+                puts(">> Erro - OpÃ§Ã£o invÃ¡lida!");
+                break;
 		}
 		puts("====================================================");
 		
