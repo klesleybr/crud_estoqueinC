@@ -22,9 +22,11 @@ from flet_core import Theme
 import json
 import os
 from datetime import datetime
+import ctypes
 
 senha = "senha"
 
+clibrary = ctypes.CDLL("methods/teste.so")
 
 def main(page: ft.Page) -> None:
     page.title = "Sistema de Estoque"
