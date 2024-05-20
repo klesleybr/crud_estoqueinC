@@ -32,19 +32,19 @@ int main(void) {
 	puts("========================================================================");
 	puts("      BEM-VINDO AO SISTEMA DE CONTROLE DE ESTOQUE Almeida Storage!      ");
 	puts("========================================================================");
-	autenticacao(userNome);
+	//autenticacao(userNome);
 	
 	do{
 		puts("============ CONTROLE DE ESTOQUE (menu) ============");
 		puts("[1] - Adicionar produto");
 		puts("[2] - Retirar produto");
 		puts("[3] - Ver estoque atual");
-		puts("[4] - Ver histï¿½rico de operaï¿½ï¿½es");
+		puts("[4] - Ver histórico de operações");
 		puts("[5] - Excluir produto");
-		puts("[6] - Alterar usuï¿½rio");
+		puts("[6] - Alterar usuário");
 		puts("[0] - Sair");
 		puts("====================================================");
-		printf("|| Escolha uma opï¿½ï¿½o: ");
+		printf("|| Escolha uma opção: ");
 		scanf("%d", &opc);
 		
 		switch(opc){
@@ -77,7 +77,6 @@ int main(void) {
 				else{
 					printf("Erro ao adicionar o produto: %s\n", nome);
 				}
-
                 break;
             
             case 2:
@@ -98,7 +97,6 @@ int main(void) {
 				}else{
 					puts(">> ERRO - O estoque estï¿½ vazio.");
 				}
-				
             	break;
             
             case 3:
@@ -109,8 +107,11 @@ int main(void) {
                 printf("Digite o ID do produto a ser removido: ");
                 scanf("%s", id);
                 getchar();
-                deletar(&estoque, id);
-                printf("Produto com ID %s removido.\n", id);
+                
+                status = deletar(&estoque, id, nome);
+                if(status) printf(">> O produto %s (%s) foi removido com sucesso.\n", nome, id);
+                else if(status == 0) puts(">> ERRO - Produto não encontrado.");
+                else if(status == -1) puts(">> ERRO - O estoque está vazio.");
                 break;
                 
             default:

@@ -86,27 +86,8 @@ int adicionar(listaPont* P, char id[], char nome[], float pesoUni, int quantidad
     auxiliar->proximo = novo;
     return 1;
 }
-/* FunÃ§Ã£o deletar produtos */
-void deletar(listaPont* lista, char id[]) {
-    listaPont aux = *lista;
-    listaPont anterior = NULL;
 
-    while (aux != NULL) {
-        if (strcmp(aux->produto.id, id) == 0) {
-            if (anterior == NULL) {
-                *lista = aux->proximo;
-            } else {
-                anterior->proximo = aux->proximo;
-            }
-            free(aux);
-            return;
-        }
-        anterior = aux;
-        aux = aux->proximo;
-    }
-}
-
-// Funï¿½ï¿½o retirar produtos
+// Função retirar produtos
 int retirar(listaPont* P, char id[], int quantidade, char nome[]) {
 	if(*P == NULL) return -2;
 	
@@ -152,6 +133,31 @@ void exibir_estoque(listaPont P){
 			P = P->proximo;
 		}	
 	}
+}
+
+/* Função deletar produtos */
+int deletar(listaPont* lista, char id[], char nome[]) {
+	if(*lista == NULL) return -1;
+	
+    listaPont aux = *lista;
+    listaPont anterior = NULL;
+
+    while (aux != NULL) {
+        if (strcmp(aux->produto.id, id) == 0) {
+        	strcpy(nome, aux->produto.nome);
+            if (anterior == NULL) {
+                *lista = aux->proximo;
+            } else {
+                anterior->proximo = aux->proximo;
+            }
+            free(aux);
+            return 1;
+        }
+        anterior = aux;
+        aux = aux->proximo;
+    }
+    
+    if(aux == NULL) return 0;
 }
 
 
