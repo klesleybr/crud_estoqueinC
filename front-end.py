@@ -1,7 +1,6 @@
 import flet as ft
 from flet import (
     View,
-    Page,
     Text,
     AppBar,
     ElevatedButton,
@@ -13,7 +12,6 @@ from flet import (
     TextField,
     ControlEvent,
     Switch,
-    Slider,
     SearchBar,
     ListView,
     DataTable,
@@ -24,10 +22,12 @@ from flet_core import Theme
 import json
 import os
 from datetime import datetime
+import ctypes
 
 senha = "senha"
 
-# LEMBRAR DE TIRAR OS COMENTARIOOOOOOOOOOOOOOOOOOOOOOOSSSSSSSSSSSSSSSSSSSSS
+clibrary = ctypes.CDLL("methods/teste.so")
+
 def main(page: ft.Page) -> None:
     page.title = "Sistema de Estoque"
     page.drawer = ft.NavigationDrawer(controls=[
@@ -41,6 +41,21 @@ def main(page: ft.Page) -> None:
         "Montserrat ExtraLight": "fonts/Montserrat-ExtraLight.ttf"
     }
     page.theme = Theme(font_family="Roboto")
+
+    def erro_campos(mensagem: str) -> None:
+        def fechar_popup(self) -> None:
+            erro_popup.open = False
+            page.update()
+        erro_popup = ft.AlertDialog(
+            modal=True,
+            title=ft.Text("Campos Vazios"),
+            content=ft.Text(f"{mensagem}"),
+            actions=[ft.TextButton(text="OK", on_click=fechar_popup)],
+            actions_alignment=ft.MainAxisAlignment.CENTER
+        )
+        page.dialog = erro_popup
+        erro_popup.open = True
+        page.update()
 
     def validando(e: ControlEvent):
         if all([campo_nome.value, campo_senha.value]) and campo_senha.value == senha:
@@ -62,12 +77,12 @@ def main(page: ft.Page) -> None:
         id_produto = campo_id.value
         nome_produto = campo_nome_produto.value
         preco_produto = campo_preco.value
-        quantidade = round(campo_quantidade.value)
+        quantidade = campo_quantidade.value
         if all([campo_id, campo_nome_produto, campo_preco, campo_quantidade]):
             dados_produto = {
-                "id": (id_produto),
+                "id": int(id_produto),
                 "nome": nome_produto,
-                "preco": (preco_produto),
+                "preco": float(preco_produto),
                 "quantidade": quantidade
             }
             json_object = json.dumps(dados_produto, indent=4)
@@ -75,17 +90,22 @@ def main(page: ft.Page) -> None:
                 write_file.write(json_object)
             return True
         else:
-            erro_popup = ft.AlertDialog(
-                modal=True,
-                title=ft.Text("Campos Vazios"),
-                content=ft.Text("Por favor, preencha todos os campos ao adicionar um produto!"),
-                actions=[ft.TextButton(text="OK", on_click=fechar_popup)],
-                actions_alignment=ft.MainAxisAlignment.CENTER
-            )
-            page.dialog = erro_popup
-            erro_popup.open = True
-            page.update()
+            erro_campos("teste")
 
+    def retirar_produtos(self) -> None:
+        id_produto = campo_id.value
+        quantidade = campo_quantidade.value
+        if all([campo_id.value, campo_nome]):
+            dados_retirar_produto = {
+                "id": int(id_produto),
+                "quantidade": int(quantidade)
+            }
+            json_object = json.dumps(dados_retirar_produto, indent=2)
+            with open(os.path.join("data", "retirar_produtos_data.json"), "w") as write_file:
+                write_file.write(json_object)
+            return None
+        else:
+            erro_campos("Por favor, insira o Id e a quantidade do produto que deseja remover")
 
     def entrar(e: ControlEvent) -> None:
         page.go("/estoque")
@@ -123,16 +143,16 @@ def main(page: ft.Page) -> None:
         else:
             return None
 
-    def slider(e: ControlEvent) -> None:
-        text = ft.Text()
-        text.value = {round(e.control.value)}
-
     def exibir_historico() -> Control:
         historico = 0 # isso é apenas para fins de teste enqt não tenho os dados do back-end
         if historico <=0:
             return ft.Text("Nenhuma ação por aqui 😀", size=25)
         else:
             return ft.Text(str(historico), size=25)
+
+    ''' # esperando o back-end
+    def excluir_produto() -> None:
+    '''
 
     def paginas_drawer(e:ControlEvent) -> None:
         if e.control.selected_index == 0:
@@ -149,7 +169,7 @@ def main(page: ft.Page) -> None:
         width=400,
         hint_text="Ex: Maria Rosa",
         filled=True,
-        # on_change=validando
+        on_change=validando
     )
     campo_senha: TextField = ft.TextField(
         label="Digite a senha",
@@ -157,13 +177,12 @@ def main(page: ft.Page) -> None:
         password=True,
         can_reveal_password=True,
         filled=True,
-        # on_change=validando
+        on_change=validando
     )
 
     botao_entrar: ElevatedButton = ft.ElevatedButton(
         text="Entrar",
-        disabled=False,
-        # LEMBAR DE BOTAR TRUEEEEE AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+        disabled=True,
         on_click=entrar
     )
 
@@ -205,8 +224,8 @@ def main(page: ft.Page) -> None:
     campo_nome_produto: TextField = ft.TextField(
         hint_text="Nome do Produto:", border_color="Blue", height=50
     )
-    campo_quantidade: Slider = ft.Slider(
-        min=1, max=100, divisions=100, label="{value}", round=0, on_change=slider,
+    campo_quantidade: TextField = ft.TextField(
+        hint_text="Quantidade:", width=150, height=50, border_color="Blue"
     )
     campo_preco: TextField = ft.TextField(
         hint_text="Preço:", width=150, height=50, border_color="Blue",
@@ -221,7 +240,7 @@ def main(page: ft.Page) -> None:
     )
     tabela_de_produtos: DataTable = ft.DataTable(
         width=1000,
-        bgcolor="#30343b",
+        # bgcolor="#30343b",
         border_radius=10,
         show_checkbox_column=True,
         border=ft.border.all(1, "blue"),
@@ -239,7 +258,8 @@ def main(page: ft.Page) -> None:
                     ft.DataCell(ft.Text("Placeholder")),
                     ft.DataCell(ft.Text("Placeholder")),
                 ],
-                on_select_changed=lambda e: print("Teste")
+                on_select_changed=lambda e: print("Teste"),
+                on_long_press=None
             ),
             ft.DataRow(
                 cells=[
@@ -291,18 +311,6 @@ def main(page: ft.Page) -> None:
 
     list : ListView = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=False)
     list.controls.append(tabela_de_produtos)
-    '''
-    lista_dos_produtos: ListView = ft.ListView(
-        controls=[ft.Column(
-            controls=[
-                ft.PopupMenuButton(items=[ft.PopupMenuItem(text="Deletar produto")])],
-            alignment=ft.MainAxisAlignment.START,
-            wrap=True
-        )],
-        expand=False,
-        spacing=25
-    )
-    '''
 
     def trocando_paginas(e: RouteChangeEvent) -> None:
         page.views.clear()
@@ -311,10 +319,6 @@ def main(page: ft.Page) -> None:
         page.scroll = True
         page.add()
 
-        '''
-        for i in range(50):
-            lista_dos_produtos.controls.append(ft.Text(f"Produto {i}"))
-        '''
         # Página de Login
         page.views.append(
             View(
@@ -342,7 +346,7 @@ def main(page: ft.Page) -> None:
                     controls=[AppBar(
                         title=Text("Gerenciamento do Estoque",
                                    font_family="Montserrat ExtraLight"),
-                        bgcolor="#30343b",
+                       # bgcolor="#30343b",
                         center_title=True, ),
                         Container(
                             content=ft.ElevatedButton("Histórico", icon=ft.icons.HISTORY, on_click=entrar_historico),
@@ -354,10 +358,19 @@ def main(page: ft.Page) -> None:
                             campo_id,
                             campo_nome_produto,
                             campo_preco,
-                            ft.Column(controls=[ft.Text("Selecione a quantidade:"), campo_quantidade]),
-                            ft.ElevatedButton("Adicionar Produto", icon=ft.icons.ADD, on_click=combo_adicionar),
+                            campo_quantidade,
+                            ft.FloatingActionButton(icon=ft.icons.ADD, bgcolor="Blue", on_click=combo_adicionar),
                         ],
                             alignment=ft.MainAxisAlignment.CENTER,
+                        ),
+                        ft.Text("Retirar Produtos", font_family="Montserrat ExtraLight", size=20),
+                        ft.Row(
+                            controls=[
+                                campo_id,
+                                campo_quantidade,
+                                ft.FloatingActionButton(icon=ft.icons.REMOVE, bgcolor="Red", on_click=retirar_produtos)
+                            ],
+                            alignment=ft.MainAxisAlignment.CENTER
                         ),
                         barra_pesquisa,
                         list,
@@ -377,7 +390,8 @@ def main(page: ft.Page) -> None:
                     drawer=drawer,
                     route="/historico",
                     controls=[AppBar(title=Text("Historico", font_family="Montserrat ExtraLight"),
-                                     bgcolor="#30343b", center_title=True,),
+                                    # bgcolor="#30343b",
+                                     center_title=True,),
                               exibir_historico()
                               ],
                     vertical_alignment=MainAxisAlignment.CENTER,
