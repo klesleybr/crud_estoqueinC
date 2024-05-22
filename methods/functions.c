@@ -4,7 +4,7 @@
 #include <string.h>
 #include <time.h>
 
-/* Definiï¿½ï¿½o da lista */
+/* Definição da lista */
 typedef struct pdt{
 	char id[20];
 	char nome[70];
@@ -12,7 +12,7 @@ typedef struct pdt{
 	int quantidade;
 	float precoUni;
 } dadosProduto;
-/* Cada nï¿½ da lista corresponderï¿½ a uma struct pdt e um ponteiro. */
+/* Cada nó da lista corresponderá a uma struct pdt e um ponteiro. */
 
 typedef struct listaP{
 	dadosProduto produto;
@@ -21,14 +21,14 @@ typedef struct listaP{
 typedef listaP* listaPont;
 
 
-/* Funï¿½ï¿½o de login */
+/* Função de login */
 void autenticacao(char* nomeUser){
 	setlocale(LC_ALL, "Portuguese");
 	
 	char nome[50], password[20];
 	int t = 3;
 	
-	printf("|| Informe o nome de usuï¿½rio: ");
+	printf("|| Informe o nome de usuário: ");
 	gets(nome);
 	do{
 		printf("|| Informe a senha de acesso: ");
@@ -42,7 +42,7 @@ void autenticacao(char* nomeUser){
 	
 	if(t == 0){
 		system("cls");
-		puts("~ Vocï¿½ zerou o nï¿½mero de tentativas. O programa serï¿½ encerrado. ~");
+		puts("~ Você zerou o número de tentativas. O programa será encerrado. ~");
 		exit(1);
 	}
 	else{
@@ -58,12 +58,12 @@ void autenticacao(char* nomeUser){
 	}
 }
 
-/* Funï¿½ï¿½o adicionar produtos */
+/* Função adicionar produtos */
 int adicionar(listaPont* P, char id[], char nome[], float pesoUni, int quantidade, float precoUni) {
 	listaPont novo;
     
     novo = (listaPont)malloc(sizeof(listaP));
-    if (novo == NULL) return 0; // Erro de alocaï¿½ï¿½o de memï¿½ria.
+    if (novo == NULL) return 0; // Erro de alocação de memória.
 
     strcpy(novo->produto.id, id);
     strcpy(novo->produto.nome, nome);
@@ -102,7 +102,7 @@ int retirar(listaPont* P, char id[], int quantidade, char nome[]) {
 	
 	// Se encontrou o produto, remove a quantidade
     if (atual != NULL) {
-        if (atual->produto.quantidade >= quantidade) { // Verifica se a quantidade ï¿½ suficiente
+        if (atual->produto.quantidade >= quantidade) { // Verifica se a quantidade é suficiente
 	        atual->produto.quantidade -= quantidade;
 	        strcpy(nome, atual->produto.nome);
 	        return 1; 
@@ -114,9 +114,9 @@ int retirar(listaPont* P, char id[], int quantidade, char nome[]) {
 	    }
 }
 
-/* Funï¿½ï¿½o de visualizar estoque */
+/* Função de visualizar estoque */
 void exibir_estoque(listaPont P){
-	if(P == NULL) puts(">> ERRO - O estoque estï¿½ vazio.");
+	if(P == NULL) puts(">> ERRO - O estoque estoque vazio.");
 	else{
 		int i = 1;
 		while(P != NULL){
@@ -125,8 +125,8 @@ void exibir_estoque(listaPont P){
 			printf("|| ID: %s\n", P->produto.id);
 			printf("|| NOME: %s\n", P->produto.nome);
 			printf("|| QUANTIDADE: %d\n", P->produto.quantidade);
-			printf("|| PESO UNITï¿½RIO (kg): %.4f\n", P->produto.pesoUni);
-			printf("|| PREï¿½O UNITï¿½RIO: R$%.2f\n", P->produto.precoUni);
+			printf("|| PESO UNITÁRIO (kg): %.4f\n", P->produto.pesoUni);
+			printf("|| PREÇO UNITÁRIO: R$%.2f\n", P->produto.precoUni);
 			printf("~ O produto possui um peso total de %.4f kg, o equivalente a R$ %.3f.\n", (P->produto.pesoUni)*(P->produto.quantidade), (P->produto.precoUni)*((P->produto.quantidade)));
 			
 			i++;
@@ -136,15 +136,14 @@ void exibir_estoque(listaPont P){
 }
 
 /* Função deletar produtos */
-int deletar(listaPont* lista, char id[], char nome[]) {
-	if(*lista == NULL) return -1;
+int deletar(listaPont* lista, char id[]) {
+	if(*lista == NULL) return(-1);
 	
     listaPont aux = *lista;
     listaPont anterior = NULL;
 
     while (aux != NULL) {
         if (strcmp(aux->produto.id, id) == 0) {
-        	strcpy(nome, aux->produto.nome);
             if (anterior == NULL) {
                 *lista = aux->proximo;
             } else {
