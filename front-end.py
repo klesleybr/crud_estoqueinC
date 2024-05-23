@@ -26,8 +26,6 @@ import ctypes
 
 senha = "senha"
 
-clibrary = ctypes.CDLL("methods/teste.so")
-
 def main(page: ft.Page) -> None:
     page.title = "Sistema de Estoque"
     page.drawer = ft.NavigationDrawer(controls=[
