@@ -1,6 +1,8 @@
-{
-    "id": 321,
-    "nome": "dasdsa",
-    "preco": 9.0,
-    "quantidade": "59"
-}
+[
+    {
+        "id": 6,
+        "nome": "arroz",
+        "preco": 50.0,
+        "quantidade": "10"
+    }
+]
