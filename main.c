@@ -3,7 +3,6 @@ para revenda. At� o momento, pensamos em implementar as op��es:
 
 		- Adicionar produto
 		- Retirar produto
-		- Modificar informa��es
 		- Excluir produto
 		- Hist�rico de a��es
 		
