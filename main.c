@@ -1,12 +1,12 @@
-/* A proposta � fazer um controle de estoque de um armaz�m que abriga produtos diversos
-para revenda. At� o momento, pensamos em implementar as op��es:
+/* A proposta é fazer um controle de estoque de um armazem que abriga produtos diversos
+para revenda. Até o momento, pensamos em implementar as opções:
 
 		- Adicionar produto
 		- Retirar produto
 		- Excluir produto
-		- Hist�rico de a��es
+		- Histórico de açoes
 		
-Isso ser� feito utilizando-se da TAD lista din�mica encadeada.
+Isso será feito utilizando-se da TAD lista dinâmica encadeada.
 */
 
 #include <stdlib.h>
@@ -40,12 +40,12 @@ int main(void) {
 		puts("[1] - Adicionar produto");
 		puts("[2] - Retirar produto");
 		puts("[3] - Ver estoque atual");
-		puts("[4] - Ver hist�rico de opera��es");
+		puts("[4] - Ver histórico de operações");
 		puts("[5] - Excluir produto");
-		puts("[6] - Alterar usu�rio");
+		puts("[6] - Alterar usuário");
 		puts("[0] - Sair");
 		puts("====================================================");
-		printf("|| Escolha uma op��o: ");
+		printf("|| Escolha uma opção: ");
 		scanf("%d", &opc);
 		
 		switch(opc){
@@ -54,20 +54,20 @@ int main(void) {
 				break;
 				
 			case 1:
-				printf("Insira o ID do produto: "); // Sem espa�os...
+				printf("Insira o ID do produto: "); // Sem espaços...
                 scanf("%s", id);
                 getchar(); 
 
                 printf("Insira o nome do produto: ");
                 fgets(nome, sizeof(nome), stdin);
 
-                printf("Insira o peso unit�rio do produto (kg): ");
+                printf("Insira o peso unitário do produto (kg): ");
                 scanf("%f", &pesoUni);
 
                 printf("Insira a quantidade a ser adicionada: ");
                 scanf("%d", &quantidade);
 
-                printf("Insira o pre�o unit�rio do produto: R$ ");
+                printf("Insira o preço unitário do produto: R$ ");
                 scanf("%f", &precoUni);
                 
                 if(adicionar(&estoque, id, nome, pesoUni, quantidade, precoUni)){
@@ -94,12 +94,12 @@ int main(void) {
 	    		if (status == 1) { // Produto retirado com sucesso
 	        		printf(">> Foram retirados %d pacotes do produto %s com sucesso.\n", quantidade, nome);
 							registrarOperacao(&listaHistorico, "Retirado", nome, pesoUni, quantidade, precoUni);
-	   			} else if(status == 0) { // Erro ao retirar o produto (n�o encontrado)
-	        		puts(">> ERRO - Produto n�o encontrado.");
+	   			} else if(status == 0) { // Erro ao retirar o produto (não encontrado)
+	        		puts(">> ERRO - Produto não encontrado.");
 	   			} else if(status == -1){ // Erro ao retirar o produto (quantidade excedente)
 	   				puts(">> ERRO - A quantidade desejada excede o estoque.");
 				}else{
-					puts(">> ERRO - O estoque est� vazio.");
+					puts(">> ERRO - O estoque estã vazio.");
 				}
             	break;
             
@@ -120,15 +120,15 @@ int main(void) {
 									registrarOperacao(&listaHistorico, "Removido", nome, pesoUni, quantidade, precoUni);
 				}
 				else if(status == 0){
-					puts(">> ERRO - Produto n�o encontrado.");	
+					puts(">> ERRO - Produto não encontrado.");	
 				}
 				else{
-					puts(">> ERRO - O estoque est� vazio.");
+					puts(">> ERRO - O estoque estã vazio.");
 				}		
                 break;
         
             default:
-                puts(">> Erro - Op��o Inv�lida.");
+                puts(">> Erro - Opção Inválida.");
                 break;
 		}
 		puts("====================================================");
