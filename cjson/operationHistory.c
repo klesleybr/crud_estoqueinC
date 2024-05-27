@@ -52,14 +52,17 @@ void registrarOperacao(pontHistorico *listaHistorico, const char *acao, const ch
     novoElemento->elementoHist = novaOperacao;
     novoElemento->proximoElemento = *listaHistorico;
     *listaHistorico = novoElemento;
+}
 
-    cJSON *historicoJson = listaHistoricoToJson(*listaHistorico);
+void imprimirHistorico(pontHistorico listaHistorico) {
+
+      cJSON *historicoJson = listaHistoricoToJson(listaHistorico);
 
     if (historicoJson != NULL) {
       char *historicoJsonStr = cJSON_Print(historicoJson);
 
       if (historicoJsonStr != NULL) {
-        printf("Historico JSON:\n%s\n", historicoJsonStr);
+        printf("%s", historicoJsonStr);
     
         FILE *file = fopen("history.json", "w");
         if (file != NULL) {
@@ -74,4 +77,5 @@ void registrarOperacao(pontHistorico *listaHistorico, const char *acao, const ch
       cJSON_Delete(historicoJson);
       return;
     }
+
 }

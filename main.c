@@ -21,6 +21,8 @@ int main(void) {
 	
 	char userNome[50];
 	int opc, status;
+
+	pontHistorico listaHistorico = NULL;
 	
 	listaPont estoque = NULL;
     char id[20];
@@ -73,6 +75,8 @@ int main(void) {
                 	puts("----------------------------------------------------");
                 	printf("Produto adicionado com sucesso: %s", nome);
                     printf("ID do produto: %s\n", id);
+
+										registrarOperacao(&listaHistorico, "Adicionado", nome, pesoUni, quantidade, precoUni);
 				}
 				else{
 					printf("Erro ao adicionar o produto: %s\n", nome);
@@ -90,6 +94,7 @@ int main(void) {
 				status = retirar(&estoque, id, quantidade, nome);
 	    		if (status == 1) { // Produto retirado com sucesso
 	        		printf(">> Foram retirados %d pacotes do produto %s com sucesso.\n", quantidade, nome);
+							registrarOperacao(&listaHistorico, "Retirado", nome, pesoUni, quantidade, precoUni);
 	   			} else if(status == 0) { // Erro ao retirar o produto (n�o encontrado)
 	        		puts(">> ERRO - Produto n�o encontrado.");
 	   			} else if(status == -1){ // Erro ao retirar o produto (quantidade excedente)
@@ -102,7 +107,9 @@ int main(void) {
             case 3:
             	exibir_estoque(estoque);
             	break;
-
+			case 4:
+				imprimirHistorico(listaHistorico);
+				break;
 			case 5:
                 printf("Digite o ID do produto a ser removido: ");
                 scanf("%s", id);
@@ -111,6 +118,7 @@ int main(void) {
                 status = deletar(&estoque, id);
                 if(status){
                 	printf(">> O produto %s (%s) foi removido com sucesso.\n", nome, id);
+									registrarOperacao(&listaHistorico, "Removido", nome, pesoUni, quantidade, precoUni);
 				}
 				else if(status == 0){
 					puts(">> ERRO - Produto n�o encontrado.");	

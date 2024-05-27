@@ -23,5 +23,6 @@ typedef listaHistorico *pontHistorico;
 
 cJSON *listaHistoricoToJson(pontHistorico listaHistorico);
 void registrarOperacao(pontHistorico *listaHistorico, const char *acao, const char *nome, float pesoUni, int quantidade, float precoUni);
+void imprimirHistorico(pontHistorico listaHistorico);
 
 #endif
